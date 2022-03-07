@@ -1,6 +1,6 @@
 import HyRequest from './request'
 import { BASE_URL, TIME_OUT } from './request/config'
-export default new HyRequest({
+const hyRequest = new HyRequest({
   baseURL: BASE_URL,
   timeout: TIME_OUT,
   interceptors: {
@@ -22,3 +22,4 @@ export default new HyRequest({
     }
   }
 })
+export default hyRequest
