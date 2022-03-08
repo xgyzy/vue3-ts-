@@ -1,5 +1,7 @@
 import { createApp, App } from 'vue'
 import { globalRegister } from './global'
+import 'normalize.css'
+import './assets/css/index.less'
 import rootApp from './App.vue'
 import router from './router'
 import store from './store'
@@ -28,6 +30,6 @@ app.mount('#app')
 
 hyRequest.request({
   url: '/home/multidata',
-  method: 'GET'
-  // showLoading: true
+  method: 'GET',
+  showLoading: false
 })
