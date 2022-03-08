@@ -43,10 +43,11 @@ class HyRequest {
     )
     this.instance.interceptors.response.use(
       (res) => {
+        const data = res.data
         setTimeout(() => {
           this.loading?.close()
         }, 3000)
-        return res
+        return data
       },
       (err) => {
         this.loading?.close()
@@ -56,26 +57,40 @@ class HyRequest {
     )
   }
 
-  request(config: HYRequestConfig): void {
-    if (config.interceptors?.requestInterceptor) {
-      config = config.interceptors.requestInterceptor(config)
-    }
-    if (config.showLoading === false) {
-      this.showLoading = config.showLoading
-    }
-    this.instance
-      .request(config)
-      .then((res) => {
-        if (config.interceptors?.responseInterceptor) {
-          res = config.interceptors.responseInterceptor(res)
-        }
-        console.log(res)
-        this.showLoading = DEFAULT_LOADING
-      })
-      .catch((err) => {
-        this.showLoading = DEFAULT_LOADING
-        return err
-      })
+  request<T>(config: HYRequestConfig): Promise<T> {
+    return new Promise((resolve, reject) => {
+      if (config.interceptors?.requestInterceptor) {
+        config = config.interceptors.requestInterceptor(config)
+      }
+      if (config.showLoading === false) {
+        this.showLoading = config.showLoading
+      }
+      this.instance
+        .request<any, T>(config)
+        .then((res) => {
+          if (config.interceptors?.responseInterceptor) {
+            // res = config.interceptors.responseInterceptor(res)
+          }
+          this.showLoading = DEFAULT_LOADING
+          resolve(res)
+        })
+        .catch((err) => {
+          this.showLoading = DEFAULT_LOADING
+          reject(err)
+        })
+    })
+  }
+  get<T>(config: HYRequestConfig): Promise<T> {
+    return this.request<T>({ ...config, method: 'GET' })
+  }
+  post<T>(config: HYRequestConfig): Promise<T> {
+    return this.request<T>({ ...config, method: 'POST' })
+  }
+  delete<T>(config: HYRequestConfig): Promise<T> {
+    return this.request<T>({ ...config, method: 'DELETE' })
+  }
+  patch<T>(config: HYRequestConfig): Promise<T> {
+    return this.request<T>({ ...config, method: 'PATCH' })
   }
 }
 export default HyRequest
