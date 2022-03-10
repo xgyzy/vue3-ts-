@@ -1,24 +1,24 @@
 <template>
   <div class="login-panel">
     <h1 class="title">后台管理系统</h1>
-    <el-tabs type="border-card" class="demo-tabs" stretch>
-      <el-tab-pane>
+    <el-tabs v-model="currentTab" type="border-card" class="demo-tabs" stretch>
+      <el-tab-pane name="account">
         <template #label>
           <span class="custom-tabs-label">
             <el-icon><Avatar /></el-icon>
             <span>账号登录</span>
           </span>
         </template>
-        <login-account></login-account>
+        <login-account ref="accountRef"></login-account>
       </el-tab-pane>
-      <el-tab-pane>
+      <el-tab-pane name="phone">
         <template #label>
           <span class="custom-tabs-label">
             <el-icon><Cellphone /></el-icon>
             <span>手机登录</span>
           </span>
         </template>
-        <login-phone></login-phone>
+        <login-phone ref="phoneRef"></login-phone>
       </el-tab-pane>
     </el-tabs>
     <div class="account-control">
@@ -34,23 +34,35 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { Avatar, Cellphone } from '@element-plus/icons-vue'
-import loginAccount from './login-account.vue'
-import loginPhone from './login-phone.vue'
+import LoginAccount from './login-account.vue'
+import LoginPhone from './login-phone.vue'
 export default defineComponent({
   components: {
     Avatar,
     Cellphone,
-    loginAccount,
-    loginPhone
+    LoginAccount,
+    LoginPhone
   },
   setup() {
-    const isKeepPassword = ref(false)
+    // 定义属性
+    const isKeepPassword = ref(true)
+    const accountRef = ref<InstanceType<typeof LoginAccount>>()
+    const phoneRef = ref<InstanceType<typeof LoginPhone>>()
+    const currentTab = ref('account')
+    // 定义方法
     const handleLoginClick = () => {
-      console.log('123')
+      if (currentTab.value === 'account') {
+        accountRef.value?.loginAction(isKeepPassword.value)
+      } else {
+        console.log('phone')
+      }
     }
     return {
+      handleLoginClick,
       isKeepPassword,
-      handleLoginClick
+      accountRef,
+      phoneRef,
+      currentTab
     }
   }
 })

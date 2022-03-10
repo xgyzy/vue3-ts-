@@ -10,11 +10,10 @@ declare module 'vue' {
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElIcon: typeof import('element-plus/es')['ElIcon']
     ElInput: typeof import('element-plus/es')['ElInput']
-    ElInputt: typeof import('element-plus/es')['ElInputt']
     ElLink: typeof import('element-plus/es')['ElLink']
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
   }
 }
 
-export {}
+export { }
