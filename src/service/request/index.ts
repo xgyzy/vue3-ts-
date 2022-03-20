@@ -3,11 +3,11 @@ import type { AxiosInstance } from 'axios'
 import { ElLoading } from 'element-plus'
 import { LoadingInstance } from 'element-plus/lib/components/loading/src/loading'
 import 'element-plus/theme-chalk/el-loading.css'
-import type { HyRequestIntercepotors, HYRequestConfig } from './type'
+import type { HYRequestInterceptors, HYRequestConfig } from './type'
 const DEFAULT_LOADING = true
 class HyRequest {
   instance: AxiosInstance
-  interceptors?: HyRequestIntercepotors
+  interceptors?: HYRequestInterceptors
   loading?: LoadingInstance
   showLoading: boolean
 
@@ -44,7 +44,7 @@ class HyRequest {
         const data = res.data
         setTimeout(() => {
           this.loading?.close()
-        }, 3000)
+        }, 500)
         return data
       },
       (err) => {

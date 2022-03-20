@@ -5,13 +5,14 @@ import './assets/css/index.less'
 import rootApp from './App.vue'
 import router from './router'
 import store from './store'
-import hyRequest from './service'
+import { setupStore } from './store'
+// import hyRequest from './service'
 const app: App = createApp(rootApp)
 
 app.use(router)
 app.use(store)
 app.use(globalRegister)
-
+app.use(setupStore)
 app.mount('#app')
 // hyRequest.request({
 //   url: '/home/multidata',
@@ -28,8 +29,8 @@ app.mount('#app')
 //   }
 // })
 
-hyRequest.request({
-  url: '/home/multidata',
-  method: 'GET',
-  showLoading: false
-})
+// hyRequest.request({
+//   url: '/home/multidata',
+//   method: 'GET',
+//   showLoading: false
+// })
